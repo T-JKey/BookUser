@@ -11,17 +11,6 @@ const Navbar = () => {
           <NavLink className="navbar-brand fw-bold fs-4" to="/">
             BOOK
           </NavLink>
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-info" type="submit">
-              Search
-            </button>
-          </form>
           <button
             className="navbar-toggler"
             type="button"

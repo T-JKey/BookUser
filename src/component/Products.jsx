@@ -2,23 +2,52 @@ import React, { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { NavLink } from "react-router-dom";
 import ProductHeader from "./ProductHeader";
+import Pagination from "./pagination/Pagination";
+import axios from "axios";
+import queryString from "query-string";
 export default function () {
   const [data, setData] = useState([]);
   const [category, setCategory] = useState([]);
-  const [filter, setFilter] = useState(data);
+  // const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(false);
+
+  //phân trang
+  const [pagination, setPagination] = useState({
+    _page: 1,
+    _limit: 6,
+    _totalRows: 1,
+  });
+  // xử lí api
+  const [load, setLoad] = useState({
+    _page: 1,
+    _limit: 6,
+    q: "",
+    _sort: "",
+    _order: "",
+  });
 
   let cpnMount = true;
 
   useEffect(() => {
     const getProducts = async () => {
+      const param = queryString.stringify(load);
       setLoading(true);
-      const res = await fetch("http://localhost:8000/book");
+      const apilength = await axios.get(
+        `http://localhost:8000/book?categoryId=${load.categoryId}`
+      );
+      const legth = apilength.data.length;
+      const res = await fetch(`http://localhost:8000/book?${param}`);
       const resCategory = await fetch("http://localhost:8000/categories");
       if (cpnMount) {
         setData(await res.clone().json());
-        setFilter(await res.clone().json());
+        // setFilter(await res.clone().json());
         setCategory(await resCategory.clone().json());
+        setPagination({
+          ...pagination,
+          _page: load._page,
+          _totalRows: legth,
+         
+        });
         setLoading(false);
       }
       return () => {
@@ -26,7 +55,11 @@ export default function () {
       };
     };
     getProducts();
-  }, []);
+  }, [load]);
+
+  function handlePageChange(newPage) {
+    setLoad({ ...load, _page: newPage });
+  }
 
   const Loading = () => {
     return (
@@ -50,7 +83,7 @@ export default function () {
   const ShowProducts = () => {
     return (
       <>
-        {filter.map((product) => {
+        {data.map((product) => {
           return (
             <div className="col-md-3 mx-2 mb-4" key={product.id}>
               <div className="card h-100 text-center p-2">
@@ -62,7 +95,8 @@ export default function () {
                 <div className="card-body">
                   <h5 className="card-title mb-0" title={product.name}>
                     {product.name.substring(0, 12)}...
-                  </h5>
+                  </h5> 
+                  <p className="card-text">{product.status}</p>
                   <p className="card-text">${product.price}</p>
                   <NavLink
                     to={`/products/${product.id}`}
@@ -79,11 +113,9 @@ export default function () {
     );
   };
 
-  const fitterProduct = (cat) => {
-    const update = data.filter((index) => index.categoryId === cat);
-    setFilter(update);
-  };
-
+  function handleCate(cat) {
+    setLoad({ ...load, _page: 1, categoryId: cat });
+  }
   const ShowCategory = () => {
     return (
       <>
@@ -91,7 +123,7 @@ export default function () {
           return (
             <button
               className="category-item__link"
-              onClick={() => fitterProduct(cate.id)}
+              onClick={() => handleCate(cate.id)}
               key={cate.id}
             >
               {cate.name}
@@ -102,6 +134,7 @@ export default function () {
     );
   };
 
+ 
   return (
     <div>
       <div className="container my-5 py-5">
@@ -118,7 +151,7 @@ export default function () {
               <h3 className="category__heading">Danh mục</h3>
               <button
                 className="category-item__link"
-                onClick={() => setFilter(data)}
+                onClick={() => handleCate()}
               >
                 All
               </button>
@@ -126,7 +159,11 @@ export default function () {
             </nav>
           </div>
           <div className="d-flex flex-column">
-            <ProductHeader Data={data} Filters={setFilter}/>
+            <ProductHeader  pagination={pagination}
+              onPageChange={handlePageChange}
+              setLoad={setLoad}
+              Data ={data}
+              />
             <div className="p-2 w-100 d-flex flex-wrap justify-content-evenly ">
               {loading ? <Loading /> : <ShowProducts />}
             </div>
