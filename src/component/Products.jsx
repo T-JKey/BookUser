@@ -24,6 +24,7 @@ export default function () {
     q: "",
     _sort: "",
     _order: "",
+  
   });
 
   let cpnMount = true;
@@ -32,21 +33,20 @@ export default function () {
     const getProducts = async () => {
       const param = queryString.stringify(load);
       setLoading(true);
-      const apilength = await axios.get(
-        `http://localhost:8000/book?categoryId=${load.categoryId}`
-      );
-      const legth = apilength.data.length;
+      const apilength = await axios.get(`http://localhost:8000/book?categoryId=${load.categoryId}`);
+        const apilen = await axios.get( "http://localhost:8000/book");
+
+      const legth = (load.categoryId) > 0 ? apilength.data.length  : apilen.data.length;
+
       const res = await fetch(`http://localhost:8000/book?${param}`);
       const resCategory = await fetch("http://localhost:8000/categories");
       if (cpnMount) {
         setData(await res.clone().json());
-        // setFilter(await res.clone().json());
         setCategory(await resCategory.clone().json());
         setPagination({
           ...pagination,
           _page: load._page,
           _totalRows: legth,
-         
         });
         setLoading(false);
       }
@@ -95,12 +95,12 @@ export default function () {
                 <div className="card-body">
                   <h5 className="card-title mb-0" title={product.name}>
                     {product.name.substring(0, 12)}...
-                  </h5> 
+                  </h5>
                   <p className="card-text">{product.status}</p>
                   <p className="card-text">${product.price}</p>
                   <NavLink
                     to={`/products/${product.id}`}
-                    className="btn btn-outline-dark"
+                    className="btn btn-primary"
                   >
                     Buy Now
                   </NavLink>
@@ -134,18 +134,17 @@ export default function () {
     );
   };
 
- 
   return (
     <div>
       <div className="container my-5 py-5">
         <div className="row">
-          <div className="col-12 mb-5">
+          <div className="col-12 mb-4">
             <h1 className="text-center">LIST PRODUCTS</h1>
             <hr />
           </div>
         </div>
-
-        <div className="d-flex">
+        <p className="d-flex flex-row-reverse" style={{margin:"0 4%"}}> sản phẩm <b style={{color:"#6366F1"}}> {pagination._totalRows} </b> Có </p>
+        <div className="d-flex w-100">
           <div className="p-2 flex-shrink-0">
             <nav className="category">
               <h3 className="category__heading">Danh mục</h3>
@@ -158,12 +157,13 @@ export default function () {
               {loading ? <Loading /> : <ShowCategory />}
             </nav>
           </div>
-          <div className="d-flex flex-column">
-            <ProductHeader  pagination={pagination}
+          <div className="d-flex flex-column w-100">
+            <ProductHeader
+              pagination={pagination}
               onPageChange={handlePageChange}
               setLoad={setLoad}
-              Data ={data}
-              />
+              Data={data}
+            />
             <div className="p-2 w-100 d-flex flex-wrap justify-content-evenly ">
               {loading ? <Loading /> : <ShowProducts />}
             </div>

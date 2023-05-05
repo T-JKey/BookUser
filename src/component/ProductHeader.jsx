@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import Button from "@mui/material/Button";
 ProductHeader.propTypes = {
   pagination: PropTypes.object.isRequired,
   onPageChange: PropTypes.func,
@@ -7,49 +8,45 @@ ProductHeader.propTypes = {
 ProductHeader.defaultProps = {
   onPageChange: null,
 };
-export default function ProductHeader(props){
-  const { pagination, onPageChange,setLoad,Data} = props;
+export default function ProductHeader(props) {
+  const { pagination, onPageChange, setLoad, Data } = props;
   const { _page, _limit, _totalRows } = pagination;
-  const {load,  _sort,
-    _order,} = setLoad;
+  const { load, _sort, _order } = setLoad;
   const totalPages = Math.ceil(_totalRows / _limit);
 
-  // // console.log(Pagination);
   function handlePageChange(newPage) {
-    // console.log("toto",totalPages);
     if (onPageChange) {
       onPageChange(newPage);
     }
   }
   function handleold() {
-    setLoad({...pagination, _page: 1, status: "old"});
+    setLoad({ ...pagination, _page: 1, status: "old" });
   }
   function handlenew() {
-    setLoad({ ...pagination, _page: 1, status: "new"});
+    setLoad({ ...pagination, _page: 1, status: "new" });
   }
 
   const sortAsc = () => {
-    setLoad({...pagination,_page: 1,_sort:"price",_order:"asc" });
+    setLoad({ ...pagination, _page: 1, _sort: "price", _order: "asc" });
   };
 
   const sortDesc = () => {
-    setLoad({...pagination,_page: 1,_sort:"price",_order:"desc" });
+    setLoad({ ...pagination, _page: 1, _sort: "price", _order: "desc" });
   };
   return (
     <nav
-      class="navbar navbar-expand-lg navbar-light bg-light"
+      className="navbar navbar-expand-lg navbar-light bg-light"
       style={{ height: "56px", margin: "0 5%" }}
     >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+      <div className="container-fluid">
+        <a className="navbar-brand" href="#">
           Sắp xếp theo
         </a>
-
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item dropdown">
+        <div className="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul className="navbar-nav">
+            <li className="nav-item dropdown">
               <a
-                class="nav-link dropdown-toggle"
+                className="nav-link dropdown-toggle"
                 href="#"
                 id="navbarDropdownMenuLink"
                 role="button"
@@ -59,25 +56,25 @@ export default function ProductHeader(props){
                 Gói sách
               </a>
               <ul
-                class="dropdown-menu"
+                className="dropdown-menu"
                 aria-labelledby="navbarDropdownMenuLink"
               >
                 <li>
-                  <button class="dropdown-item"onClick={handleold} >
+                  <button className="dropdown-item" onClick={handleold}>
                     Gói: Sách old
                   </button>
                 </li>
                 <li>
-                  <button class="dropdown-item" onClick={handlenew} >
+                  <button className="dropdown-item" onClick={handlenew}>
                     Gói: Sách new
                   </button>
                 </li>
               </ul>
             </li>
 
-            <li class="nav-item dropdown">
+            <li className="nav-item dropdown">
               <a
-                class="nav-link dropdown-toggle"
+                className="nav-link dropdown-toggle"
                 href="#"
                 id="navbarDropdownMenuLink"
                 role="button"
@@ -87,16 +84,16 @@ export default function ProductHeader(props){
                 Giá
               </a>
               <ul
-                class="dropdown-menu"
+                className="dropdown-menu"
                 aria-labelledby="navbarDropdownMenuLink"
               >
                 <li>
-                  <button class="dropdown-item" onClick={sortAsc} >
+                  <button className="dropdown-item" onClick={sortAsc}>
                     Giá: Thấp đến cao
                   </button>
                 </li>
                 <li>
-                  <button class="dropdown-item"onClick={sortDesc}>
+                  <button className="dropdown-item" onClick={sortDesc}>
                     Giá: Cao đến thấp
                   </button>
                 </li>
@@ -104,41 +101,36 @@ export default function ProductHeader(props){
             </li>
           </ul>
           <nav
-      aria-label="Page navigation example"
-      className="d-flex align-items-center ms-auto"
-    >
-      <ul class="pagination m-0">
-        <li class="page-item">
-          <button
-            class="page-link"
-            aria-label="Previous"
-            onClick={() => handlePageChange(_page - 1)}
-            disabled={ _page === 1}
+            aria-label="Page navigation example"
+            className="d-flex align-items-center ms-auto"
           >
-            <span aria-hidden="true">&laquo;</span>
-          </button>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="#">
-            {_page}
-          </a>
-        </li>
-        <li class="page-item">
-          <button
-            class="page-link"
-            aria-label="Next"
-            onClick={() => handlePageChange(_page + 1)}
-            disabled={ _page === totalPages}
-          >
-            <span aria-hidden="true">&raquo;</span>
-          </button>
-        </li>
-      </ul>
-    </nav>
+            <ul className="pagination m-0">
+              <Button
+                onClick={() => {
+                  handlePageChange(_page - 1);
+                }}
+                variant="contained"
+                disabled={_page === 1}
+              >
+                prev
+              </Button>
+
+              <Button>
+                <strong>{_page}</strong>
+              </Button>
+              <Button
+                disabled={_page >= totalPages}
+                onClick={() => {
+                  handlePageChange(_page + 1);
+                }}
+                variant="contained"
+              >
+                next
+              </Button>
+            </ul>
+          </nav>
         </div>
       </div>
     </nav>
   );
-};
-
-
+}
