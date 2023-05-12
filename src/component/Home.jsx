@@ -3,10 +3,13 @@ import b1 from "../public/book_img/b1.jpg";
 import b2 from "../public/book_img/b2.jpg";
 import b3 from "../public/book_img/b3.jpg";
 import Ratings from "./Ratings";
+import Navbar from "./Navbar";
 
 const Home = () => {
   return (
+    
     <div className="slineder">
+      <Navbar/>
       <div
         id="carouselExampleInterval"
         className="carousel slide"

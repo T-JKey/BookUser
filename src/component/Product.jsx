@@ -2,6 +2,7 @@ import React, {useState,useEffect} from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 import {useDispatch } from 'react-redux';
 import {addCart} from '../redux/action';
+import Navbar from './Navbar';
 export default function Product() {
     const {id} = useParams();
     const [product,setProduct] = useState([]);
@@ -39,29 +40,30 @@ export default function Product() {
     const Show = () =>{
         return(
             <>
-                    <div className="col-md-6 mt-5">
-                        <img src={product.img} alt={product.name} height="500px" width="400px"/>
-                    </div>
-                     <div className="col-md-6 mt-5">
-                        <h4 className='text-uppercase text-black-50'>
-                            {product.category}
-                        </h4>
-                        <h1 className="display-5">
-                            {product.name}
-                        </h1>
-                        <p className="lead">
-                            Rating {product.ratting && product.rating.rate}
-                            <span className="fa fa-start"></span>
-                        </p>
-                        <h3 className='display-6 fw-bold my-4'>
-                            $ {product.price}
-                        </h3>
-                        <p className="lead">
-                            {product.description}
-                        </p>
-                        <button className="btn btn-outline-dark px-4 py-2" onClick={()=>addProduct(product)}>ADD TO CART</button>
-                        <NavLink to="/cart" className="btn btn-dark ms-2 px-3 py-2">GO TO CART</NavLink>
-                    </div> 
+                <Navbar/>
+                <div className="col-md-6 mt-5">
+                    <img src={product.img} alt={product.name} height="500px" width="400px"/>
+                </div>
+                <div className="col-md-6 mt-5">
+                    <h4 className='text-uppercase text-black-50'>
+                        {product.category}
+                    </h4>
+                    <h1 className="display-5">
+                        {product.name}
+                    </h1>
+                    <p className="lead">
+                        Rating {product.ratting && product.rating.rate}
+                        <span className="fa fa-start"></span>
+                    </p>
+                    <h3 className='display-6 fw-bold my-4'>
+                        $ {product.price}
+                    </h3>
+                    <p className="lead">
+                        {product.description}
+                    </p>
+                    <button className="btn btn-outline-dark px-4 py-2" onClick={()=>addProduct(product)}>ADD TO CART</button>
+                    <NavLink to="/cart" className="btn btn-dark ms-2 px-3 py-2">GO TO CART</NavLink>
+                </div> 
             </>
         )
     }

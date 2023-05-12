@@ -8,7 +8,7 @@ import Cart from "./component/Cart";
 function Main() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       {/* <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/products" element={<Products />} />

@@ -103,7 +103,7 @@ function Login() {
               <Typography variant="h4">Login</Typography>
               <Typography color="text.secondary" variant="body2">
                 Don&apos;t have an account? &nbsp;
-                <NavLink to="/register">Register</NavLink>
+                <NavLink to="/auth/register">Register</NavLink>
               </Typography>
             </Stack>
 
@@ -121,7 +121,7 @@ function Login() {
               fullWidth
               label="Password"
               name="password"
-              onChange={(e) => setPassword(e.target.value.trim())}
+              onChange={(e) => setPassword(e.target.value)}
               type="password"
               id={password}
               value={password}

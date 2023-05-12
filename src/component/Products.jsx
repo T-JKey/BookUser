@@ -5,6 +5,8 @@ import ProductHeader from "./ProductHeader";
 import Pagination from "./pagination/Pagination";
 import axios from "axios";
 import queryString from "query-string";
+import Navbar from "./Navbar";
+
 export default function () {
   const [data, setData] = useState([]);
   const [category, setCategory] = useState([]);
@@ -135,7 +137,9 @@ export default function () {
   };
 
   return (
+
     <div>
+      <Navbar/>
       <div className="container my-5 py-5">
         <div className="row">
           <div className="col-12 mb-4">
@@ -143,9 +147,9 @@ export default function () {
             <hr />
           </div>
         </div>
-        <p className="d-flex flex-row-reverse" style={{margin:"0 4%"}}> sản phẩm <b style={{color:"#6366F1"}}> {pagination._totalRows} </b> Có </p>
+        <h6 style={{textAlign: "right", marginRight: "62px"}}> Có <strong style={{color:"#6366F1"}}>{pagination._totalRows}</strong> sản phẩm</h6>
         <div className="d-flex w-100">
-          <div className="p-2 flex-shrink-0">
+          <div className="p-2 flex-shrink-0 ">
             <nav className="category">
               <h3 className="category__heading">Danh mục</h3>
               <button

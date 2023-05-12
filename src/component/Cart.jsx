@@ -1,9 +1,11 @@
 
-import React from 'react'
+import React from 'react';
+import Navbar from './Navbar';
 
 const Cart = () => {
   return (
     <>
+    <Navbar/>
     <div className="shopping-cart">
                 <div className="mt-5 pt-5 container">
                     <div className="pb-5">
@@ -34,14 +36,14 @@ const Cart = () => {
                                                         <div className="p-2">
                                                             <img src="${o.image}" alt="" width="70" className="img-fluid rounded shadow-sm"/>
                                                             <div className="ml-3 d-inline-block align-middle">
-                                                                <h5 className="mb-0"> <a href="#" className="text-dark d-inline-block">$222</a></h5><span className="text-muted font-weight-normal font-italic"></span>
+                                                                <h5 className="mb-0"> <a href="#" className="text-dark d-inline-block"> Name </a></h5><span className="text-muted font-weight-normal font-italic"></span>
                                                             </div>
                                                         </div>
                                                     </th>
                                                     <td className="align-middle"><strong>$22</strong></td>
                                                     <td className="align-middle">
                                                         <a href="#"><button className="btnSub">-</button></a> 
-                                                        <strong>$ </strong>
+                                                        <strong> 2 </strong>
                                                         <a href="#"><button className="btnAdd">+</button></a>
                                                     </td>
                                                     <td className="align-middle"><a href="#" className="text-dark">
