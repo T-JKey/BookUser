@@ -40,6 +40,7 @@
     display: flex;
     justify-items: center;
     position: relative;
+    
 }
 
 .header__navbar-user-name{
@@ -60,7 +61,7 @@
     padding-left: 0;
     top: calc(100% + 10px);
     right: 0;
-    width: 160px;
+    width: 100%;
     background-color: #fff;
     border-radius: 2px;
     list-style: none;
@@ -89,7 +90,7 @@
     position: absolute;
     top: -14px;
     right: 0;
-    width: 60%;
+    width: 100%;
     height: 14px;
 }
 

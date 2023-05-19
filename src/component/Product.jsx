@@ -18,8 +18,7 @@ export default function Product() {
         ()=>{
         const getProduct = async() =>{
             setDisplay(true);
-            const res = await fetch(`http://localhost:8000/book/${id}`);
-     
+            const res = await fetch(`https://thuvien.nemosoftware.net/api/v1/categories/${id}?relations=books`);
                 setProduct(await res.json());
                 setDisplay(false);
             
@@ -42,7 +41,7 @@ export default function Product() {
             <>
                 <Navbar/>
                 <div className="col-md-6 mt-5">
-                    <img src={product.img} alt={product.name} height="500px" width="400px"/>
+                    <img src={product.image} alt={product.name} height="500px" width="400px"/>
                 </div>
                 <div className="col-md-6 mt-5">
                     <h4 className='text-uppercase text-black-50'>
@@ -52,7 +51,7 @@ export default function Product() {
                         {product.name}
                     </h1>
                     <p className="lead">
-                        Rating {product.ratting && product.rating.rate}
+                        Gói {product.label}
                         <span className="fa fa-start"></span>
                     </p>
                     <h3 className='display-6 fw-bold my-4'>

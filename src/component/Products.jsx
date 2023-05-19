@@ -15,18 +15,16 @@ export default function () {
 
   //phân trang
   const [pagination, setPagination] = useState({
-    _page: 1,
-    _limit: 6,
-    _totalRows: 1,
+    page: 1,
+    perPage: 10,
+    totalRows: 1,
   });
   // xử lí api
   const [load, setLoad] = useState({
-    _page: 1,
-    _limit: 6,
+    page: 1,
+    perPage: 10,
     q: "",
-    _sort: "",
-    _order: "",
-  
+    
   });
 
   let cpnMount = true;
@@ -35,20 +33,19 @@ export default function () {
     const getProducts = async () => {
       const param = queryString.stringify(load);
       setLoading(true);
-      const apilength = await axios.get(`http://localhost:8000/book?categoryId=${load.categoryId}`);
-        const apilen = await axios.get( "http://localhost:8000/book");
-
-      const legth = (load.categoryId) > 0 ? apilength.data.length  : apilen.data.length;
-
-      const res = await fetch(`http://localhost:8000/book?${param}`);
-      const resCategory = await fetch("http://localhost:8000/categories");
+      const apilength = await axios.get(`https://thuvien.nemosoftware.net/api/v1/categories`);
+      setCategory(apilength.data.data);
+      const apilen = await axios.get( "https://thuvien.nemosoftware.net/api/v1/books");
+      const legth = (load.id) > 0 ? apilength.data.meta.totalRows : apilen.data.meta.totalRows;
+      const res = await fetch(`https://thuvien.nemosoftware.net/api/v1/books?${param}`);
       if (cpnMount) {
-        setData(await res.clone().json());
-        setCategory(await resCategory.clone().json());
+        const ress = await res.clone().json()
+        setData(ress.data);
         setPagination({
           ...pagination,
-          _page: load._page,
-          _totalRows: legth,
+          page: load.page,
+          totalRows: legth,
+ 
         });
         setLoading(false);
       }
@@ -60,7 +57,7 @@ export default function () {
   }, [load]);
 
   function handlePageChange(newPage) {
-    setLoad({ ...load, _page: newPage });
+    setLoad({ ...load, page: newPage });
   }
 
   const Loading = () => {
@@ -90,15 +87,15 @@ export default function () {
             <div className="col-md-3 mx-2 mb-4" key={product.id}>
               <div className="card h-100 text-center p-2">
                 <img
-                  src={product.img}
+                  src={product.image}
                   className="card-img-top"
                   height="250px"
                 />
                 <div className="card-body">
                   <h5 className="card-title mb-0" title={product.name}>
-                    {product.name.substring(0, 12)}...
+                    {product.name.substring(0, 10)}...
                   </h5>
-                  <p className="card-text">{product.status}</p>
+                  <p className="card-text" title={product.author}>{product.author.substring(0, 10)}...</p>
                   <p className="card-text">${product.price}</p>
                   <NavLink
                     to={`/products/${product.id}`}
@@ -116,7 +113,7 @@ export default function () {
   };
 
   function handleCate(cat) {
-    setLoad({ ...load, _page: 1, categoryId: cat });
+    setLoad({ ...load, page: 1, category: cat });
   }
   const ShowCategory = () => {
     return (
@@ -147,7 +144,7 @@ export default function () {
             <hr />
           </div>
         </div>
-        <h6 style={{textAlign: "right", marginRight: "62px"}}> Có <strong style={{color:"#6366F1"}}>{pagination._totalRows}</strong> sản phẩm</h6>
+        <h6 style={{textAlign: "right", marginRight: "62px"}}> Có <strong style={{color:"#6366F1"}}>{pagination.totalRows}</strong> sản phẩm</h6>
         <div className="d-flex w-100">
           <div className="p-2 flex-shrink-0 ">
             <nav className="category">

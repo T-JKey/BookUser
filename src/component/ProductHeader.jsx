@@ -10,28 +10,28 @@ ProductHeader.defaultProps = {
 };
 export default function ProductHeader(props) {
   const { pagination, onPageChange, setLoad, Data } = props;
-  const { _page, _limit, _totalRows } = pagination;
-  const { load, _sort, _order } = setLoad;
-  const totalPages = Math.ceil(_totalRows / _limit);
+  const { page, perPage, totalRows } = pagination;
+  const { load, sortType, column } = setLoad;
+  const totalPages = Math.ceil(totalRows / perPage);
 
   function handlePageChange(newPage) {
     if (onPageChange) {
       onPageChange(newPage);
     }
   }
-  function handleold() {
-    setLoad({ ...pagination, _page: 1, status: "old" });
+  function handlenormal() {
+    setLoad({ ...pagination, page: 1, label: "normal" });
   }
-  function handlenew() {
-    setLoad({ ...pagination, _page: 1, status: "new" });
+  function handlevip() {
+    setLoad({ ...pagination, page: 1, label: "vip" });
   }
 
   const sortAsc = () => {
-    setLoad({ ...pagination, _page: 1, _sort: "price", _order: "asc" });
+    setLoad({ ...pagination, page: 1, column: "price", sortType: "asc" });
   };
 
   const sortDesc = () => {
-    setLoad({ ...pagination, _page: 1, _sort: "price", _order: "desc" });
+    setLoad({ ...pagination, page: 1, column: "price", sortType: "desc" });
   };
   return (
     <nav
@@ -42,6 +42,7 @@ export default function ProductHeader(props) {
         <a className="navbar-brand" href="#">
           Sắp xếp theo
         </a>
+        
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item dropdown">
@@ -60,13 +61,13 @@ export default function ProductHeader(props) {
                 aria-labelledby="navbarDropdownMenuLink"
               >
                 <li>
-                  <button className="dropdown-item" onClick={handleold}>
-                    Gói: Sách old
+                  <button className="dropdown-item" onClick={handlenormal}>
+                    Gói: Sách Normal
                   </button>
                 </li>
                 <li>
-                  <button className="dropdown-item" onClick={handlenew}>
-                    Gói: Sách new
+                  <button className="dropdown-item" onClick={handlevip}>
+                    Gói: Sách VIP
                   </button>
                 </li>
               </ul>
@@ -100,6 +101,17 @@ export default function ProductHeader(props) {
               </ul>
             </li>
           </ul>
+          <form class="d-flex mx-2">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
           <nav
             aria-label="Page navigation example"
             className="d-flex align-items-center ms-auto"
@@ -107,21 +119,21 @@ export default function ProductHeader(props) {
             <ul className="pagination m-0">
               <Button
                 onClick={() => {
-                  handlePageChange(_page - 1);
+                  handlePageChange(page - 1);
                 }}
                 variant="contained"
-                disabled={_page === 1}
+                disabled={page === 1}
               >
                 prev
               </Button>
 
               <Button>
-                <strong>{_page}</strong>
+                <strong>{page}</strong>
               </Button>
               <Button
-                disabled={_page >= totalPages}
+                disabled={page >= totalPages}
                 onClick={() => {
-                  handlePageChange(_page + 1);
+                  handlePageChange(page + 1);
                 }}
                 variant="contained"
               >
